@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python - zajęcia wprowadzające</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Lato|Roboto);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono);
+
+      body {
+        font-family: 'Lato', sans-serif;
+        line-height: 1.6;
+      }
+      .remark-code, .remark-inline-code {
+        font-family: 'Ubuntu Mono'; 
+      }
+      p, li {
+        font-size: 20pt;
+      }
+      a, a > code {
+        color: #F93A26;
+      }
+      code {
+        background: #E7E8E2;
+        border-radius: 5px;
+      }
+      @page {
+        size: 1210px 681px;
+        margin: 0;
+      }
+      @media print {
+        .remark-slide-scaler {
+          width: 100% !important;
+          height: 100% !important;
+          transform: scale(1) !important;
+          top: 0 !important;
+          left: 0 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Python
+
+## Metody specjalne
+
+### 30/11/2018
+
+Paweł Suder
+
+<pasuder@agh.edu.pl>
+
+https://pa.suder.app/labs/lab01
+
+---
+
+# Agenda
+
+1. Metody specjalne
+1. Operatory i funkcje
+1. Przykłady
+1. Zadania
+
+---
+
+# Metody specjalne
+
+- podstawowe
+- dostępu
+- porównania
+- wywołania
+- konteneryzacji
+- matematyczne
+- `with`
+
+Więcej informacji:
+
+- [Metody specjalne](https://docs.python.org/3.5/reference/datamodel.html#special-method-names)
+- [Standardowe typy](https://docs.python.org/3.5/library/stdtypes.html)
+
+---
+
+# Operatory i funkcje
+
+- podstawowe: `A()` 
+- dostępu: `a.b` `a.b = c` `del a.b`
+- porównania: `a == b` `a != b` `a < b` `a >= b`
+- wywołania: `a()`
+- konteneryzacji: `a[b]` `a[b] = c` `del a[b]` `for b in a: ...`
+
+Więcej informacji:
+
+- [Operatory](https://docs.python.org/3.5/library/operator.html)
+- [Funkcje](https://docs.python.org/3.5/library/functions.html)
+
+---
+
+### Przykłady - podstawowe
+
+```python
+class Object(object):
+    def __init__(self, param):
+        self.__private_field = param
+```
+
+```python
+>>> o = Object('anything')
+>>> print(o)
+<__main__.Object object at 0x7efe9a213470>
+>>> o
+<__main__.Object object at 0x7efe9a213470>
+```
+
+---
+
+### Przykłady - podstawowe
+
+```python
+class Object(object):
+    def __init__(self, param):
+        self.__private_field = param
+    def __str__(self):
+        return 'Object: %s' % self.__private_field
+```
+
+```python
+>>> o = Object('anything')
+>>> print(o)
+Object: anything
+>>> o
+<__main__.Object object at 0x7efe9a213748>
+```
+
+---
+
+### Przykłady - podstawowe
+
+```python
+class Object(object):
+    def __init__(self, param):
+        self.__private_field = param
+    def __str__(self):
+        return 'Object: %s' % self.__private_field
+    def __repr__(self):
+        return '<Object: __private_field=%s>' % self.__private_field
+```
+
+```python
+>>> o = Object('anything')
+>>> print(o)
+Object: anything
+>>> o
+<Object: __private_field=anything>
+```
+
+---
+
+### Przykłady - podstawowe
+
+```python
+class Object(object):
+    def __init__(self, param):
+        self.__private_field = param
+    ...
+    def __hash__(self):
+        return hash(self.__private_field)
+```
+
+```python
+>>> a = Object('first')
+>>> b = Object('second')
+>>> hash(a), hash(b)
+(1666425883664241038, -9168246016793942683)
+>>> c = Object('first')
+>>> hash(c)
+1666425883664241038
+>>> hex(id(a)), hex(id(c))
+('0x7efe9a213d68', '0x7efe9a213160')
+```
+
+---
+
+### Przykłady - podstawowe
+
+```python
+class Object(object):
+    def __init__(self, param):
+        self.__private_field = param
+    ...
+    def __bool__(self):
+        return bool(self.__private_field)
+```
+
+```python
+>>> o = Object('false')
+>>> o
+<Object: __private_field=false>
+>>> bool(o)
+True
+>>> o == True, o == False
+(False, False)
+>>> o is True, o is False
+(False, False)
+```
+
+---
+
+### Przykłady - podstawowe
+
+```python
+>>> o = Object('example')
+>>> bool(o)
+True
+>>> o = Object('')
+>>> bool(o)
+False
+>>> o = Object(0)
+>>> bool(o)
+False
+>>> o = Object(1)
+>>> bool(o)
+True
+```
+
+---
+
+### Przykłady - dostępu
+
+```python
+class Object(object):
+    def __init__(self, param):
+        self.__private_field = param
+    ...
+    def __getattr__(self, name):
+        return self.__private_field.get(name)
+```
+
+```python
+>>> o = Object({'a': 1, 'b': '2', 'c': object()})
+>>> o
+<Object: __private_field={'a': 1, 'b': '2', 'c': <object object at 0x7efe9aa2c0d0>}>
+>>> o.a
+1
+>>> o.a, o.b
+(1, '2')
+>>> o.a, o.b, o.c
+(1, '2', <object object at 0x7efe9aa2c0d0>)
+```
+
+---
+
+### Przykłady - dostępu
+
+```python
+class DynamicObject(object):
+    __fields = dict()
+    def __repr__(self):
+        return '<Object: fields=%s>' % self.__fields
+    def __getattr__(self, name):
+        return self.__fields.get(name)
+    def __setattr__(self, name, value):
+        self.__fields[name] = value
+```
+
+```python
+>>> o = DynamicObject()
+>>> o
+<Object: fields={}>
+>>> o.blah = 'tests'
+>>> o
+<Object: fields={'blah': 'tests'}>
+>>> o.blah
+'tests'
+
+```
+
+---
+
+### Przykłady - dostępu
+
+```python
+class DynamicObject(object):
+    __fields = dict()
+    ...
+    def __delattr__(self, name):
+        del self.__fields[name]
+```
+
+```python
+>>> o = DynamicObject()
+>>> o.blah = 'tests'
+>>> o.blah
+'tests'
+>>> del o.blah
+>>> o.blah
+>>> o
+<Object: fields={}>
+
+```
+
+---
+
+### Przykłady - porównania
+
+```python
+class Object(object):
+    def __init__(self, param):
+        self.__private_field = param
+    ...
+    def __eq__(self, other):
+        return self.__private_field == other.__private_field
+```
+
+```python
+>>> a = Object('first'); b = Object('second')
+>>> a == b
+False
+>>> a != b
+True
+>>> c = Object('first')
+>>> a == c
+True
+```
+
+---
+
+### Przykłady - porównania
+
+```python
+class Object(object):
+    def __init__(self, param):
+        self.__private_field = param
+    ...
+    def __ne__(self, other):
+        return True
+```
+
+```python
+>>> a = Object('first'); b = Object('second')
+>>> a == b
+False
+>>> a != b
+True
+>>> c = Object('first')
+>>> a == c
+True
+>>> a != c
+True
+```
+
+---
+
+### Przykłady - porównania
+
+```python
+class Object(object):
+    ...
+    def __lt__(self, other):
+        return self.__private_field < other.__private_field
+    def __ge__(self, other):
+        return not self.__private_field < other.__private_field
+```
+
+```python
+>>> a = Object(10); b = Object(20); c = Object(10)
+>>> a > b, a < b, a <= b, a >= b
+(False, True, True, False)
+>>> b > a, b < a, b <= a, b >= a
+(True, False, False, True)
+>>> a > c, a < c, a <= c, a >= c
+(False, False, True, True)
+>>> c > a, c < a, c <= a, c >= a
+(False, False, True, True)
+
+```
+
+---
+
+### Przykłady - wywołania
+
+```python
+class CalledObject(object):
+    def __init__(self, name):
+        self.__name = name
+    def __call__(self, *args, **kwargs):
+        return 'Called %s with (%s, %s)' % (self.__name, str(args), str(kwargs))
+```
+
+```python
+>>> c = CalledObject('test')
+>>> c()
+'Called test with ((), {})'
+>>> c(1,2,3)
+'Called test with ((1, 2, 3), {})'
+>>> c(1,2,3,name='value')
+"Called test with ((1, 2, 3), {'name': 'value'})"
+
+```
+
+---
+
+### Przykłady - konteneryzacja
+
+```python
+class Container(object):
+    def __init__(self, container=list()):
+        self.__container = container
+    def __getitem__(self, key):
+        return self.__container[key]
+```
+
+```python
+>>> c = Container([1,2,3])
+>>> c[0]
+1
+>>> c[2]
+3
+```
+
+---
+
+### Przykłady - konteneryzacja
+
+```python
+class Container(object):
+    def __init__(self, container=list()):
+        self.__container = container
+    ...
+    def __setitem__(self, key, value):
+        self.__container[key] = value
+```
+
+```python
+>>> c = Container([1,2,3])
+>>> c[0]
+1
+>>> c[0] = 4
+>>> c[0]
+4
+>>> c[3] = 5
+IndexError: list assignment index out of range
+```
+
+---
+
+### Przykłady - konteneryzacja
+
+```python
+class Container(object):
+    ...
+    def __getitem__(self, key):
+        return self.__container[key]
+    def __setitem__(self, key, value):
+        self.__container[key] = value
+```
+
+```python
+>>> c = Container(dict())
+>>> c[1] = 2
+>>> c['a'] = 'b'
+>>> c[0]
+KeyError: 0
+>>> c[1]
+2
+>>> c['a']
+'b'
+```
+
+---
+
+### Przykłady - konteneryzacja
+
+```python
+class Container(object):
+    ...
+    def __setitem__(self, key, value):
+        self.__container[key] = value
+    def __delitem__(self, key):
+        del self.__container[key]
+```
+
+```python
+>>> c = Container({'a': 1, 'b': 2})
+>>> c['a']
+1
+>>> del c['a']
+>>> c['a']
+KeyError: 'a'
+>>> c['a'] = 3
+>>> c['a']
+3
+```
+
+---
+
+### Przykłady - konteneryzacja
+
+```python
+class Container(object):
+    ...
+    def __getitem__(self, key):
+        return self.__container[key]
+    def __setitem__(self, key, value):
+        self.__container[key] = value
+    def __contains__(self, key):
+        return key in self.__container
+```
+
+```python
+>>> c = Container({'a': 1, 'b': 2})
+>>> 'a' in c
+True
+>>> 2 in c
+False
+```
+
+---
+
+### Przykłady - konteneryzacja
+
+```python
+class Container(object):
+    ...
+    def __iter__(self):
+        for obj in self.__container:
+            yield obj
+```
+
+```python
+>>> c = Container({'a': 1, 'b': 2})
+>>> for key in c:
+...     print('%s: %s' % (key, c[key]))
+... 
+b: 2
+a: 1
+```
+
+[Iterator](https://docs.python.org/3.5/library/stdtypes.html#typeiter) i [generator](https://wiki.python.org/moin/Generators) z [`yield`](https://stackoverflow.com/a/231855)
+
+---
+
+### Inne
+
+- matematyczne - takie jak porównania
+- `with` - na następnych zajęciach
+
+---
+
+# Zadania
+
+- uniwersalna klasa dla typów numerycznych do działań matematycznych - obiekt klasy posiada jedno pole, które przechowuje wartość numeryczną
+- kontener obiektów z wyszukiwaniem po kluczu i możliwością dodawania nowych wartości - można przez kropkę, można przez nawiasy
+- kolejkę niepowtarzających się zadań, których wywołanie jest możliwe przez operator `()`
+
+```python
+for job in queue:
+    job()
+```
+
+---
+
+# Tematy projektów
+
+Tematy zostały udostępnione na Edmodo.
+
+W razie nieokreślonych lub niedostatecznie określonych warunków - proszę o pytania na maila.
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
