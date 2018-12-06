@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python - wyjątki i inne bloki</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Python
+
+## Wyjątki i inne bloki
+
+### 07/12/2018
+
+Paweł Suder
+
+<pasuder@agh.edu.pl>
+
+https://pa.suder.app/labs/lab02
+
+---
+
+# Agenda
+
+1. Wyjątki
+1. Rzucanie i obsługa wyjątków
+1. Inne konstrukcje językowe
+1. Przykłady
+1. Zadania
+
+---
+
+# Wyjątki
+
+* [Wyjątki](https://docs.python.org/3.5/reference/executionmodel.html#exceptions) w działaniu programu
+* [`BaseException`](https://docs.python.org/3.5/library/exceptions.html#BaseException) a [`Exception`](https://docs.python.org/3.5/library/exceptions.html#Exception) _Common base class for ..._
+  * `BaseException` - _all exceptions_
+  * `Exception` - _all **non-exit** exceptions_
+* [`SystemExit`](https://docs.python.org/3.5/library/exceptions.html#SystemExit) z [`sys.exit()`](https://docs.python.org/3.5/library/sys.html#sys.exit) - normalne zakończenie działania z obsługą `finally`
+* [Inne podstawowe wyjątki](https://docs.python.org/3.5/library/exceptions.html#concrete-exceptions)
+  * [`TypeError`](https://docs.python.org/3.5/library/exceptions.html#TypeError), [`NameError`](https://docs.python.org/3.5/library/exceptions.html#NameError), [`ImportError`](https://docs.python.org/3.5/library/exceptions.html#ImportError)
+  * [`KeyError`](https://docs.python.org/3.5/library/exceptions.html#KeyError), [`IndexError`](https://docs.python.org/3.5/library/exceptions.html#IndexError)
+  * [`StopIteration`](https://docs.python.org/3.5/library/exceptions.html#StopIteration)
+
+---
+
+# Rzucanie wyjątków
+
+* rzucanie przez [`raise`](https://docs.python.org/3.5/reference/simple_stmts.html#raise)
+* `raise` tworzy obiekt wyjątku z podanej nazwy klasy za `raise`
+* jeśli brak wyjątku za `raise`, _re-raise_ istniejącego wyjątku
+* jeśli brak wyjątku na stosie, `RuntimeError` jest rzucany
+
+---
+
+# [Obsługa wyjątków](https://docs.python.org/3.5/reference/compound_stmts.html#the-try-statement)
+
+* `try..except`
+* `try..except..finally`
+* `try..finally`
+* `else`
+
+---
+
+# `with`
+
+* [`with..`](https://docs.python.org/3.5/reference/compound_stmts.html#the-with-statement)
+* stosowanie [kontekstu](https://docs.python.org/3.5/reference/datamodel.html#context-managers)
+* `with obj:` i `with Obj() as obj:`
+* `__enter__(self)` i `__exit__(self)`
+* Obsługa wyjątków w `with..`
+* [Typy kontekstu](https://docs.python.org/3.5/library/stdtypes.html#typecontextmanager)
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+class BaseException(object):..
+class Exception(BaseException):..
+class StandardError(Exception):..
+class RuntimeError(StandardError):
+
+class AttributeError(StandardError):..
+
+class SyntaxError(StandardError):..
+class IndentationError(SyntaxError):..
+
+class LookupError(StandardError):..
+class IndexError(LookupError):..
+class KeyError(LookupError):..
+
+class SystemExit(BaseException):..
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    raise Exception
+except BaseException:
+    print('Got it!')
+```
+
+```python
+Got it!
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    raise Exception
+except Exception:
+    print('Got it first!')
+except BaseException:
+    print('Got it!')
+```
+
+```python
+Got it first!
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    raise SystemExit
+except Exception:
+    print('Got it first!')
+except BaseException:
+    print('Got it!')
+```
+
+```python
+Got it!
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    sys.exit(0)
+except Exception:
+    print('Got it first!')
+except BaseException:
+    print('Got it!')
+```
+
+```python
+Got it first!
+```
+
+Dlaczego?
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    sys.exit(0)
+except Exception as e:
+    print('Got it first: %s!' % str(e))
+    print('It is: %s' % type(e))
+except BaseException:
+    print('Got it!')
+```
+
+```python
+Got it first: name 'sys' is not defined!
+It is: <class 'NameError'>
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+import sys
+try:
+    sys.exit(0)
+except Exception:
+    print('Got it first!')
+except BaseException as e:
+    print('Got it: %s!' % str(e))
+```
+
+```python
+Got it: 0!
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+import sys
+try:
+    sys.exit(0)
+except Exception:
+    print('Got it first!')
+except BaseException as e:
+    print('Got it: %s!' % str(e))
+    print('It is %s!' % type(e))
+```
+
+```python
+Got it: 0!
+It is <class 'SystemExit'>!
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+import sys
+try:
+    sys.exit(0)
+    print('It will be not printed..')
+finally:
+    print('Good bye!')
+```
+
+```python
+Good bye!
+<exit>
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    exit(0)
+    print('It will be not printed..')
+finally:
+    print('Good bye!')
+```
+
+```python
+Good bye!
+<exit>
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+import os
+try:
+    os._exit(0)
+    print('It will be not printed..')
+finally:
+    print('Good bye?')
+```
+
+```python
+<exit>
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    raise Exception
+except Exception:
+    print('Got it!')
+else:  # only after last except and before finally
+    print('Erm, what?')
+```
+
+```python
+Got it!
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    print('Just nothing')
+except Exception:
+    print('Got it!')
+else:  # only after last except and before finally
+    print('Erm, what?')
+```
+
+```python
+Just nothing
+Erm, what?
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    print('Just nothing')
+except Exception:
+    print('Got it!')
+else:  # only after last except and before finally
+    print('Erm, what?')
+finally:
+    print('Last but not least')
+```
+
+```python
+Just nothing
+Erm, what?
+Last but not least
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    raise Exception
+except Exception:
+    print('Got it!')
+    raise
+finally:
+    print('Last but not least')
+```
+
+```python
+Got it!
+Last but not least
+
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+Exception
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    raise
+except Exception:
+    print('Got it!')
+    raise
+finally:
+    print('Last but not least')
+```
+
+```python
+Got it!
+Last but not least
+
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+RuntimeError: No active exception to reraise
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    try:
+        raise Exception
+    except Exception:
+        print('Got it!')
+finally:
+    print('Last but not least')
+```
+
+```python
+Got it!
+Last but not least
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    try:
+        raise Exception
+    except Exception:
+        print('Got it!')
+        raise
+finally:
+    print('Last but not least')
+```
+
+```python
+Got it!
+Last but not least
+
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+Exception
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+def func():
+    raise Exception
+
+try:
+    func()
+except Exception:
+    print('Got it!')
+```
+
+```python
+Got it!
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+def func():
+    return Exception  # yield?!
+
+try:
+    func()
+except Exception:
+    print('Got it!')
+```
+
+```python
+<class 'Exception'>
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    raise Exception
+except Exception:
+    pass  # silenty..?
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+try:
+    raise Exception
+except Exception:
+    pass  # silenty..?
+```
+
+<center>
+  <img src="https://memegenerator.net/img/instances/x300/74977713.jpg"></img>
+</center>
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+class NahException(Exception):
+    pass
+
+try:
+    raise Exception
+except Exception:
+    raise NahException
+```
+
+```python
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+Exception
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+__main__.NahException
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+class NaNException(object):
+    pass
+
+try:
+    raise NaNException
+except Exception:
+    print('It will be printed.. why?')
+```
+
+```python
+It will be printed.. why?
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+class NaNException(object):
+    pass
+
+try:
+    raise NaNException
+except Exception as e:
+    print('Error: %s; Type: %s' % (str(e), type(e)))
+```
+
+```python
+Error: exceptions must derive from BaseException; Type: <class 'TypeError'>
+```
+
+---
+
+### Przykłady - wyjątki
+
+``` python
+class NaNException(object):
+    pass
+
+raise NaNException
+```
+
+```python
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: exceptions must derive from BaseException
+```
+
+---
+
+### Przykłady - `with..`
+
+``` python
+class Context(object):
+    def __enter__(self):
+        print('Enter')
+    def __exit__(self, exc_type, exc_value, traceback):
+        print('Exit')
+
+with Context():
+    print('Suite')
+```
+
+```python
+Enter
+Suite
+Exit
+```
+
+---
+
+### Przykłady - `with..`
+
+``` python
+class Context(object):
+    def __enter__(self):
+        print('Enter')
+    def __exit__(self, exc_type, exc_value, traceback):
+        print('Exit')
+
+with Context():
+    print('Suite')
+    raise Exception
+```
+
+```python
+Enter
+Suite
+Exit
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+Exception
+```
+
+---
+
+### Przykłady - `with..`
+
+``` python
+class Context(object):
+    def __enter__(self):
+        print('Enter')
+        raise Exception
+    def __exit__(self, exc_type, exc_value, traceback):
+        print('Exit')
+
+with Context():
+    print('Suite')
+```
+
+```python
+Enter
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 4, in __enter__
+Exception
+```
+
+---
+
+### Przykłady - `with..`
+
+``` python
+class Context(object):
+    def __enter__(self):
+        print('Enter')
+    def __exit__(self, exc_type, exc_value, traceback):
+        print('Exit')
+        raise Exception
+
+with Context():
+    print('Suite')
+```
+
+```python
+Enter
+Suite
+Exit
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+  File "<stdin>", line 6, in __exit__
+Exception
+```
+
+---
+
+### Przykłady - `with..`
+
+``` python
+class Context(object):
+    def __enter__(self):
+        print('Enter')
+    def __exit__(self, exc_type, exc_value, traceback):
+        print('Got %s with %s' % (str(exc_type), str(exc_value)))
+        print('Exit')
+
+with Context():
+    print('Suite')
+    raise Exception('some value')
+```
+
+```python
+Enter
+Suite
+Got <class 'Exception'> with some value
+Exit
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+Exception: some value
+```
+
+---
+
+### Przykłady - `with..`
+
+``` python
+class Context(object):
+    def __enter__(self):
+        print('Enter')
+    def __exit__(self, exc_type, exc_value, traceback):
+        print('Got %s with %s' % (str(exc_type), str(exc_value)))
+        print('Exit')
+        return True
+
+with Context():
+    print('Suite')
+    raise Exception('some value')
+```
+
+```python
+Enter
+Suite
+Got <class 'Exception'> with some value
+Exit
+```
+
+---
+
+### Przykłady - `with..`
+
+```python
+> file.txt
+Ala ma kota
+a kot ma Alę
+```
+
+``` python
+with open('file.txt') as handler:
+    for line in handler:
+        print(line, end='')
+```
+
+```python
+Ala ma kota
+a kot ma Alę
+```
+
+---
+
+### Zadania
+
+Wykonaj:
+
+- odczytanie i parsowanie [pliku CSV](https://raw.githubusercontent.com/pasuder/labs/master/lab02/example.csv) przy użyciu `open()`
+- odczytanie i parsowanie [pliku JSON](https://raw.githubusercontent.com/pasuder/labs/master/lab02/example.json) przy użyciu `urllib.request.urlopen()`
+
+Zamień dane wejściowe na:
+
+- listę zawierającą słowniki, składające się z kluczy i wartości, które są w plikach określone
+- obiekty mające [dynamiczne pola](https://pa.suder.app/labs/lab01/#12), który nazwy odpowiadają kluczom, a wartości - wartościom, określonym w plikach
+
+---
+
+### Zadania
+
+Słowniki/obiekty powinny mieć nazwy, takie jakie są określone w pliku CSV (pierwszy wiersz) oraz w strukturze JSON (słowniku).
+
+Tip: Dla pierwszego wiersza, z pliku CSV, wartości można zapisać jako listę kluczy, które następnie można łączyć przy użyciu `zip()` z listą korespondujących wartości.
+
+Tip: JSON'a jest łatwo zamienić na listę z słownikami.
+
+Tip: obsługiwać wyjątki ;)
+
+---
+
+### Zadania
+
+W zadaniach wykorzystaj:
+
+- dla pobrania pliku przez link - [`urllib.request`](https://docs.python.org/3/library/urllib.request.html)
+- `with:` dla obsługi pliku `open()` oraz pobrania pliku `urllib.request.urlopen()`
+- do parsowania CSV - [`csv`](https://docs.python.org/3.5/library/csv.html)
+- do parsowania JSON [`json`](https://docs.python.org/3.5/library/json.html)
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
