@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python - wyjątki i inne bloki</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Python
+
+## lambda, list comp i map/filter/reduce
+
+### 07/12/2018
+
+Paweł Suder
+
+<pasuder@agh.edu.pl>
+
+https://pa.suder.app/labs/lab03
+
+---
+
+# Agenda
+
+1. Domknięcia
+1. Dekoratory
+1. _List comprehension_
+1. `lambda`
+1. `map`/`filter`/`reduce`
+1. Zadania
+
+---
+
+### Domknięcia
+
+```python
+def print_func(text_before_text):
+    def inner_print(text):
+        print("%s: %s" % (text_before_text, text))
+    return inner_print
+```
+
+```python
+>>> print_func('Provided text')
+<function print_func.<locals>.inner_print at 0x7f7064828950>
+>>> print_text = print_func('Provided text')
+>>> print_text('that text')
+Provided text: that text
+```
+
+---
+
+### Domknięcia
+
+```python
+global_text = 'Global text'
+def print_func(text_before_text):
+    def inner_print(text):
+        print("%s: %s: %s" % (global_text, text_before_text, text))
+    return inner_print
+```
+
+```python
+>>> print_func('Provided text')
+<function print_func.<locals>.inner_print at 0x7f70648e3e18>
+>>> print_text = print_func('Provided text')
+>>> print_text('that text')
+Global text: Provided text: that text
+
+>>> global_text = 'Another global text'
+>>> print_text('that text')
+Another global text: Provided text: that text
+```
+
+---
+
+### Dekoratory
+
+```python
+def wrap_func(func):
+    def inner_func(*args, **kwargs):
+        try:
+            print("Wrapping function '%s' call with args: %s; and "
+                  "kwargs: %s" % (func.__name__, args, kwargs))
+            return func(*args, **kwargs)
+        finally:
+            print('End of wrap')
+    return inner_func
+
+@wrap_func
+def print_text(text, start_text='Provided text'):
+    print("%s: %s" % (start_text, text))
+```
+
+---
+
+### Dekoratory
+
+```python
+>>> print_text('blah')
+Wrapping function 'print_text' call
+  with args: ('blah',); and kwargs: {}
+Provided text: blah
+End of wrap
+
+>>> print_text('blah', 'meh')
+Wrapping function 'print_text' call 
+  with args: ('blah', 'meh'); and kwargs: {}
+meh: blah
+End of wrap
+
+```
+
+---
+
+### Dekoratory
+
+```python
+>>> print_text('blah', start_text='meh')
+Wrapping function 'print_text' call 
+  with args: ('blah',); and kwargs: {'start_text': 'meh'}
+meh: blah
+End of wrap
+
+>>> print_text(text='blah', start_text='meh')
+Wrapping function 'print_text' call 
+  with args: (); and kwargs: {'text': 'blah', 'start_text': 'meh'}
+meh: blah
+End of wrap
+```
+
+---
+
+### List comprehension
+
+```python
+>>> [a for a in range(10)]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+>>> [a+1 for a in range(10)]
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+>>> [a*2 for a in range(10)]
+[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+
+>>> type([a for a in range(10)])
+<class 'list'>
+```
+
+---
+
+### List comprehension
+
+```python
+>>> (a*2 for a in range(10))
+<generator object <genexpr> at 0x7f706482ef68>
+
+>>> for i in (a*2 for a in range(10)):
+...     print(i, end=' ')
+... 
+0 2 4 6 8 10 12 14 16 18
+
+>>> {a*2 for a in range(10)}
+{0, 2, 4, 6, 8, 10, 12, 14, 16, 18}
+
+>>> type({a*2 for a in range(10)})
+<class 'set'>
+```
+
+---
+
+### List comprehension
+
+```python
+>>> {str(a): a*2 for a in range(10)}
+{'0': 0, '1': 2, '2': 4, '3': 6, '4': 8, 
+ '5': 10, '6': 12, '7': 14, '8': 16, '9': 18}
+
+>>> type({str(a): a*2 for a in range(10)})
+<class 'dict'>
+```
+
+---
+
+### lambda
+
+```python
+>>> add_two = lambda a: a+2
+>>> add_two(3)
+5
+
+>>> add = lambda a, b: a+b
+>>> add(1, 3)
+4
+```
+
+---
+
+### map/filter/reduce
+
+```python
+>>> map(lambda a: a+2, range(10))
+<map object at 0x7f65c60ab7f0>
+
+>>> list(map(lambda a: a+2, range(10)))
+[2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+>>> list(range(10))
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+---
+
+### map/filter/reduce
+
+```python
+>>> list(filter(lambda a: a%2, range(10)))
+[1, 3, 5, 7, 9]
+
+>>> list(filter(lambda a: a%2 == 0, range(10)))
+[0, 2, 4, 6, 8]
+
+>>> list(range(10))
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+---
+
+### map/filter/reduce
+
+`reduce` nie jest słowem-kluczem od python3
+
+```python
+from functools import reduce
+>>> reduce(lambda a, b: a + b, range(10), 0)
+45
+>>> sum(range(10))
+45
+
+>>> reduce(lambda a, b: a * b, range(10), 0)
+0
+>>> reduce(lambda a, b: a * b, range(10), 1)
+0
+>>> reduce(lambda a, b: a * b, range(1,10), 1)  # można pominąć 1
+362880
+>>> list(range(1,10))
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+---
+
+### map/filter/reduce
+
+```python
+>>> def check_if_odd(i):
+...     return i % 2
+
+>>> list(filter(check_if_odd, range(10)))
+[1, 3, 5, 7, 9]
+```
+
+---
+
+### Więcej informacji
+
+- [args i kwargs](http://book.pythontips.com/en/latest/args_and_kwargs.html)
+- [Domknięcia](https://www.programiz.com/python-programming/closure)
+- [Dekoratory](http://book.pythontips.com/en/latest/decorators.html)
+- [Więcej o dekoratorach](https://realpython.com/primer-on-python-decorators/)
+- [map](https://docs.python.org/3.5/library/functions.html#map)
+- [filter](https://docs.python.org/3.5/library/functions.html#filter)
+- [map/filter/reduce](http://book.pythontips.com/en/latest/map_filter.html)
+
+---
+
+### Zadania
+
+Wykonaj:
+
+- dekorator funkcji, który łapie wszystkie wyjątki z wywołanej funkcji i informuje, co za wyjątek został złapany
+- filtrowanie tablicy liczby naturalnych do 100, sprawdzając, czy liczba jest liczbą pierwszą
+- dodanie liczb naturalnych, nieparzystych, do 100
+
+Pro-tip:
+
+- `*args, **kwargs`
+- `range()`
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
