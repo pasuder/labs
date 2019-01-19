@@ -1,8 +1,10 @@
 # Labs
 
-Each directory contains slides for labs.
+- [Intro](doc/lab00/)
+- [Special methods](doc/lab01/)
+- [Exceptions and context manager](doc/lab02/)
+- [Clousures, decorators, lambdas, map/filter/reduce](doc/lab03/)
 
-- [Intro](lab00/)
-- [Special methods](lab01/)
-- [Exceptions and context manager](lab02/)
-- [Clousures, decorators, lambdas, map/filter/reduce](lab03/)
+---
+
+[License](LICENSE) - [Source](https://github.com/pasuder/labs) - [About me](https://pa.suder.info)
