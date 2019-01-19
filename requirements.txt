@@ -1,3 +1,4 @@
 pycodestyle
 pylint
 flake8
+stestr
