@@ -1,13 +1,8 @@
 # Labs
 
-- [Intro](doc/lab00/)
-- [Special methods](doc/lab01/)
-- [Exceptions and context manager](doc/lab02/)
-- [Clousures, decorators, lambdas, map/filter/reduce](doc/lab03/)
+Slides for labs are in [doc](doc/).
 
-# Examples
-
-You will find examples from labs in [labs](https://github.com/pasuder/labs/tree/master/labs).
+Examples from slides are in [labs](https://github.com/pasuder/labs/tree/master/labs).
 
 Unit tests are in [labs/tests](https://github.com/pasuder/labs/tree/master/labs/tests).
 

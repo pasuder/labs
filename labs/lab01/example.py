@@ -1,7 +1,7 @@
 
 class Object(object):
 
-    def __init__(self, param):
+    def __init__(self, param=None):
         self.__private_field = param
 
     def __str__(self):
@@ -16,6 +16,9 @@ class Object(object):
     def __bool__(self):
         return bool(self.__private_field)
 
+
+class ComparableObject(Object):
+
     def __eq__(self, other):
         return self.__private_field == other.__private_field
 
@@ -26,11 +29,7 @@ class Object(object):
         return not self.__private_field < other.__private_field
 
 
-a = Object('first')
-b = Object('second')
-
-
-class DynamicObject(object):
+class DynamicObject(Object):
 
     __fields = dict()
 
@@ -50,13 +49,14 @@ class DynamicObject(object):
         del self.__fields[name]
 
 
-class CalledObject(object):
+class CalledObject(Object):
 
-    def __init__(self, name):
-        self.__name = name
+    @property
+    def name(self):
+        return self.__private_field
 
     def __call__(self, *args, **kwargs):
-        return 'Called %s with (%s, %s)' % (self.__name, str(args), str(kwargs))
+        return 'Called %s with (%s, %s)' % (self.name, str(args), str(kwargs))
 
 
 class Container(object):
@@ -79,3 +79,10 @@ class Container(object):
     def __iter__(self):
         for obj in self.__container:
             yield obj
+
+
+if __name__ == '__main__':
+    a = Object('first')
+    b = Object('second')
+    print(a)
+    print(b)

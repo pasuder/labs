@@ -1,4 +1,5 @@
+flake8
+mock
 pycodestyle
 pylint
-flake8
 stestr
