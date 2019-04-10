@@ -19,6 +19,9 @@ code {
   background: #E7E8E2;
   border-radius: 5px;
 }
+img {
+  width: 90%;
+}
 @page {
   size: 1210px 681px;
   margin: 0;

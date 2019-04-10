@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python - zajęcia wprowadzające</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Python
+
+## Przygotowanie do zajęć
+
+### 10/04/2019
+
+Paweł Suder
+
+<pasuder@agh.edu.pl>
+
+https://pasuder.github.io/labs/getting-started
+
+---
+
+# Agenda
+
+1. Założenie konta na GitHub
+1. Uruchomienie edytora
+1. `Hello World!`
+1. Dodanie klucza SSH
+1. Założenie repozytorium
+
+
+---
+
+## Założenie konta na GitHub
+
+- na głównej stronie https://github.com utwórz konto
+- wybierz plan _Free_
+- _Step 3_ pomiń
+- potwierdź adres email - potrzebne do korzystania z edytora
+
+---
+
+class: center, middle
+
+<img src="pic01.png" style="width: 40%"></img>
+
+_Założenie konta przez główną stronę_
+
+---
+
+class: center, middle
+
+<img src="pic01a.png" style="width: 30%"></img>
+
+_Założenie konta przy okazji otwierania edytora_
+
+---
+
+class: center, middle
+
+<img src="pic01b.png" style="width: 45%"></img>
+
+_Wybór login i hasła oraz podanie emaila_
+
+---
+
+class: center, middle
+
+<img src="pic02.png" style="width: 45%"></img>
+
+_Wybór planu Free_
+
+---
+
+## Uruchomienie edytora
+
+- wymagane zalogowane konto na GitHub, z potwierdzonym adresem email
+- otwórz stronę https://editor.suder.dev
+- potwierdź logowanie przez konto GitHub
+- jeśli pojawi się błąd, odśwież stronę https://editor.suder.dev
+
+---
+
+class: center, middle
+
+![](pic03.png)
+
+_Weryfikacja emaila_
+
+---
+
+class: center, middle
+
+![](pic04.png)
+
+_Weryfikacja emaila_
+
+---
+
+class: center, middle
+
+<img src="pic05.png" style="width: 40%"></img>
+
+_Potwierdzenie weryfikacji_
+
+---
+
+class: center, middle
+
+<img src="pic06.png" style="width: 45%"></img>
+
+_Uruchomienie edytora_
+
+---
+
+class: center, middle
+
+![](pic07.png)
+
+_Edytor uruchomiony_
+
+---
+
+## `Hello World!`
+
+- utwórz plik `main.py`
+- wypełnij plik `main.py`
+
+```python
+if __name__ == '__main__':
+    print 'Hello World!'
+```
+
+- otwórz terminal
+- wykonaj `python main.py`
+
+---
+
+class: center, middle
+
+![](pic08.png)
+
+_Tworzenie nowego pliku_
+
+---
+
+class: center, middle
+
+![](pic09.png)
+
+_Tworzenie nowego pliku_
+
+---
+
+class: center, middle
+
+![](pic10.png)
+
+_Uruchomienie terminala_
+
+---
+
+class: center, middle
+
+![](pic11.png)
+
+_Uruchomienie terminala_
+
+---
+
+## Dodanie klucza SSH
+
+- wykonaj `ssh-keygen` w terminalu
+- wykonaj `cat ~/.ssh/id_rsa.pub` w terminalu
+- skopiuj wynik wywołania powyższego polecenia
+- dodaj klucz przez https://github.com/settings/ssh/new
+
+---
+
+class: center, middle
+
+![](pic12.png)
+
+_Wykonanie ssh-keygen_
+
+---
+
+class: center, middle
+
+![](pic13.png)
+
+_Wyświetlenie klucza SSH_
+
+---
+
+class: center, middle
+
+![](pic14.png)
+
+_Skopiowanie klucza SSH_
+
+---
+
+class: center, middle
+
+![](pic15.png)
+
+_Dodanie klucza SSH_
+
+---
+
+class: center, middle
+
+![](pic16.png)
+
+_Klucz SSH dodany_
+
+---
+
+## Założenie repozytorium
+
+- utwórz nowy katalog `testing/`
+- utwórz nowy plik `README.md` w katalogu `testing/` z zawartością
+
+```bash
+# testing
+```
+
+- skonfiguruj `git` przez terminal
+
+```bash
+git config --global user.email "TWOJ@ADRES.EMAIL"
+git config --global user.name "TWOJ LOGIN LUB IMIE"
+```
+
+---
+
+## Założenie repozytorium
+
+Wykonaj polecenia przez terminal w katalogu `testing/`:
+
+- utwórz repozytorium lokalnie przez `git init`
+- dodaj plik `README.md` przez `git add README.md`
+- potwierdź zmianę przez `git commit -m "First commit"`
+
+```bash
+cd /home/project/testing
+git init
+git add README.md
+git commit -m "First commit"
+```
+
+---
+
+## Założenie repozytorium
+
+- załóż repozytorium przez https://github.com/new o nazwie `testing`
+- ustaw zdalne repozytorium przez terminal
+
+```bash
+cd /home/project/testing
+git remote add origin git@github.com:TWOJ_LOGIN/testing.git
+git push -u origin master
+```
+
+- jeśli dodałeś z `TWOJ_LOGIN`, usuń ustawienie i wykonaj ponownie polecenia z zmienionym `TWOJ_LOGIN`
+
+```bash
+git remote rm origin
+```
+
+---
+
+class: center, middle
+
+<img src="pic17.png" style="width: 70%"></img>
+
+_Założenie repozytorium_
+
+---
+
+class: center, middle
+
+<img src="pic18.png" style="width: 70%"></img>
+
+_Repozytorium z udostępnioną zmianą_
+
+---
+
+class: center, middle
+
+<img src="pic19.png" style="width: 90%"></img>
+
+_Projekt po wykonaniu wszystkich poleceń_
+
+---
+
+class: center, middle
+
+## Do zobaczenia na zajęciach!
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
