@@ -1,5 +1,6 @@
 # Labs
 
+- [Getting started](getting-started/)
 - [Intro](lab00/)
 - [Special methods](lab01/)
 - [Exceptions and context manager](lab02/)
