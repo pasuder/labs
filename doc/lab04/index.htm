@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python - wersjonowanie i testowanie kodu, automatyzacja testowania i przegląd kodu</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Python
+
+### Wersjonowanie i testowanie kodu, automatyzacja testowania i przegląd kodu
+
+### 12/04/2019
+
+Paweł Suder
+
+<pasuder@agh.edu.pl>
+
+https://pasuder.github.io/labs/doc/lab04
+
+???
+
+Bardzo proszę o skupienie i uwagę. Dzisiaj będziemy się zajmować kilkoma ważnymi tematami. Mam nadzieję, że będzie to możliwe z Waszym udziałem w zajęciach.
+
+---
+
+# Agenda
+
+1. Git
+1. Testy
+1. Automatyzacja testów
+1. Przegląd kodu
+
+---
+
+# [Git](https://pasuder.github.io/labs/doc/lab00/#5)
+
+- wersjonowanie zmian w kodzie
+- możliwość tworzenia wielu zmian jednocześnie
+- lokalne repozytorium  - wszystkie zmiany lokalnie dostępne
+- zdalne repozytorium - GitHub, GitLab, BitBucket, własny serwer
+- [instrukcja](https://pasuder.github.io/labs/doc/getting-started) do wykonania przed rozpoczęciem ćwiczeń
+
+???
+
+Pytania kontrolne:
+
+- do czego jest Git?
+- co można zrobić przy pomocy Gita?
+- jak zapisywane są zmiany w repozytorium?
+- jak robić wiele zmian przez wiele osób w jednym projekcie?
+
+---
+
+# Git
+
+Pierwsze kroki:
+
+```bash
+mkdir project
+cd project
+git init
+echo "# Project" >> README.md
+git add README.md
+git commit -m "First commit"
+```
+
+Pomocne polecenie do poglądu aktualnego stanu: `git status`
+
+---
+
+# Git
+
+Wykonanie nowej zmiany z wykorzystaniem nowej gałęzi `feature`:
+
+```bash
+git checkout -b feature
+git add .
+git commit -m "New feature"
+```
+
+Pomocne polecenie do poglądu zmian w danej gałęzi: `git log`
+
+Pomocne polecenia do poglądu wszystkich zmian i gałęzi:
+
+```bash
+git branch -la
+git log --format=oneline --all --graph
+```
+
+---
+
+# Git
+
+Opis zmiany:
+
+```bash
+Tytuł ogólny, ale szczegółowy
+
+Opis czego dotyczy ta zmiana. Może być kilka zdań,
+które ładnie to opisują. Zalecane jest, by linie w
+opisie oraz w tytule nie były dłuższe niż 60 znaków.
+
+
+Closes #N
+```
+
+`Closes #N` to etykieta, która powoduje, że po zatwierdzeniu **merge** zmiany **pull request**, GitHub automatycznie zamyka zgłoszenie **issue**.
+
+---
+
+# [Testy](https://pasuder.github.io/labs/doc/lab00/#7)
+
+Rodzaje:
+
+- jednostkowe
+- integracyjne
+- inne: funkcjonalne, aktualizacji, interfejsu, ...
+
+???
+
+Pytania kontrolne:
+
+- do czego są testy?
+- jakie są cechy testów jednostkowych?
+- jakie są cechy testów integracyjnych?
+
+---
+
+## Testy jednostkowe
+
+- podstawowe testy w kodzie
+- sprawdzają poprawność działania funkcji lub metod
+- wykorzystują sztuczne obiekty
+- nie powinny testować zależności między klasami, modułami czy projektami
+
+---
+
+## Testy integracyjne
+
+- sprawdzają poprawność działania całej aplikacji
+- konfiguracja aplikacji na potrzeby testów powinna być domyślna
+- uruchamiane w środowisku testowym
+
+---
+
+## Pisanie testów
+
+- oddzielne klasy
+- dziedziczenie po klasie `unittest.TestCase`
+- każda z metod, która ma przypadek testowy, zaczyna się od `test_`
+- obiekt klasy testów tworzony jest automatycznie
+- testy polegają głównie na sprawdzaniu wyników działania testowanych funkcji czy metod klas, w zależności od przypadków aka _TestCase_
+- w ramach testów korzysta się z sztucznych obiektów
+
+---
+
+## Uruchamianie testów
+
+- różne narzędzia do uruchamiania testów
+- zalecane dla projektów w języku Python: [tox](https://tox.readthedocs.io/en/latest/)
+- `tox` pozwala na:
+  - separacje środowisk, w których są uruchomione testy
+  - konfigurację środowiska pod konkretne testy
+  - agregowanie wyników testów z różnych środowisk
+  - wymaga określonej struktury projektu
+
+---
+
+## Struktura projektu
+
+- [`setup.py`](https://github.com/happy-pare/task-forces/blob/master/setup.py) - podstawowy plik projektu w języku Python
+- [`requirements.txt`](https://github.com/happy-pare/task-forces/blob/master/requirements.txt) - lista zależności, jakie inne projekty są wymagane do uruchomienia tejże aplikacji
+- [`tox.ini`](https://github.com/happy-pare/task-forces/blob/master/tox.ini) - konfiguracja dla narzędzia `tox`
+- [`.stestr.conf`](https://github.com/happy-pare/task-forces/blob/master/.stestr.conf) - konfiguracja specyficzna dla testów jednostkowych
+- [`**/tests/unit`](https://github.com/happy-pare/task-forces/tree/master/task_forces/tests/unit) - katalog z plikami, z klasami testów jednostkowych
+
+---
+
+# Automatyzacja testów
+
+- różne serwisy do automatyzacji testowania
+- zalecane dla projektów udostępnianych na GitHub: [Travis](https://travis-ci.org)
+- testy uruchamiane automatycznie po udostępnieniu zmiany
+- wymagana [dodatkowa konfiguracja](https://github.com/happy-pare/task-forces/blob/master/.travis.yml) w projekcie oraz włączenie automatycznych testów w [Travis](https://travis-ci.org/account/repositories)
+
+---
+
+# Przegląd kodu
+
+- wykonywany przez innych członków zespołu
+- co najmniej jedna lub dwie osoby powinny przejrzeć i zatwierdzić zmianę
+- przegląd kodu ma służyć do powstania kodu, zrozumiałego przez innych członków
+- testy mają potwierdzić poprawność funkcjonowania
+- poprawne testy powinny być wymagane przy zatwierdzaniu zmiany
+- korzystając z GitHub, można wymusić powyższe reguły w [konfiguracji projektu](https://github.com/happy-pare/task-forces/settings/branches) poprzez *Branch protection rules*
+
+---
+
+# Zadanie
+
+- wykonuj ćwiczenie zgodnie z [instrukcją](instruction.htm)
+- zaimplementuj conajmniej jedną funkcjonalność z listy [Issues](https://github.com/happy-pare/task-forces/issues)
+- dla każdej z zaimplementowanej funkcjonalności, napisz testy jednostkowe
+- udostępnij zmianę do sprawdzenia przez wykonanie [Pull Request](https://github.com/happy-pare/task-forces/compare)
+- daj znać prowadzącemu o udostępnionej zmianie
+- poproś innego uczestnika, by zrobił Ci przegląd kodu
+
+---
+
+# Ciekawostki
+
+- [GitHub desktop](https://desktop.github.com/)
+- edytor [Atom](https://atom.io) oraz funkcja wspólnego edytowania tego samego pliku [Teletype](https://teletype.atom.io)
+- edytor [VSCode](https://code.visualstudio.com/) oparty o ten sam [silnik](https://electronjs.org), co Atom i także posiada opcję podobną do Teletype (wymagana wtyczka)
+- nerdzi używają [vim](https://www.vim.org/) w terminalu ;)
+
+---
+
+class: center, middle
+
+<img src="https://media3.giphy.com/media/lSeTL9AqRCycM/giphy.gif?cid=790b76115caf47b83732717a4d08720c"></img>
+
+_Dziękuję!_
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
