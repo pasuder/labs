@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python - podsumowanie</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Python
+
+### Podsumowanie 1/2
+
+### 31/05/2019
+
+Paweł Suder
+
+<pasuder@agh.edu.pl>
+
+https://pasuder.github.io/labs/doc/lab05
+
+---
+
+# Agenda
+
+1. Tematy
+1. Zadania
+
+---
+
+# Tematy
+
+Na dzisiaj:
+
+- python
+- narzędzia:
+  - git, GitHub
+  - Jupyter, Theia
+  - repl.it, Kaggle
+  - Travis
+
+---
+
+# Tematy
+
+Na następny raz:
+
+- dziedzinowe:
+  - gra RPG
+  - systemy agentowe
+  - uczenie maszynowe
+- inne?
+
+---
+
+## python
+
+- typy wbudowane
+- instrukcje sterujące
+- wywołanie _kodu_
+
+---
+
+## python
+
+Typy [wbudowane](https://docs.python.org/3/library/stdtypes.html):
+
+- [prawda/fałsz](https://docs.python.org/3/library/stdtypes.html#truth-value-testing)
+- [numeryczne](https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex)
+- [iterujące](https://docs.python.org/3/library/stdtypes.html#iterator-types)
+- [listy, krotki](https://docs.python.org/3/library/stdtypes.html#sequence-types-list-tuple-range)
+- [ciągi znaków](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str)
+- [binarne](https://docs.python.org/3/library/stdtypes.html#binary-sequence-types-bytes-bytearray-memoryview)
+- [zbiory](https://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset)
+- [słowniki](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict)
+- [kontekstu](https://docs.python.org/3/library/stdtypes.html#context-manager-types)
+- [inne?](https://docs.python.org/3/library/stdtypes.html#other-built-in-types)
+
+---
+
+## python - typy
+
+Typy wbudowane - wybrane przykłady:
+
+- [prawda/fałsz](https://docs.python.org/3/library/stdtypes.html#truth-value-testing)
+- [numeryczne](https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex) `int` i [`float` ](https://docs.python.org/3/tutorial/floatingpoint.html) zgodna z IEEE-754
+- [ciągi znaków](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str)
+- [listy, krotki](https://docs.python.org/3/library/stdtypes.html#sequence-types-list-tuple-range)
+- [zbiory](https://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset)
+- [słowniki](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict)
+
+---
+
+## python - typy
+
+```python
+>>> i = True
+>>> type(i)
+<class 'bool'>
+
+>>> i = 1.0
+>>> type(i)
+<class 'float'>
+>>> i = 1
+>>> type(i)
+<class 'int'>
+
+>>> i = '1'
+>>> type(i)
+<class 'str'>
+```
+
+---
+
+## python - typy
+
+```python
+>>> i = [0, 1, 2]
+>>> type(i)
+<class 'list'>
+>>> i = (0, 1, 2)
+>>> type(i)
+<class 'tuple'>
+
+>>> i = {0, 1, 2}
+>>> type(i)
+<class 'set'>
+
+>>> i = {0:'0', 1:'1', 2:'2'}
+>>> type(i)
+<class 'dict'>
+```
+
+---
+
+## python
+
+Instrukcje [sterujące](https://docs.python.org/3/tutorial/controlflow.html):
+
+- warunkowe [`if`](https://docs.python.org/3/tutorial/controlflow.html#if-statements)
+- pętle [`while`](https://docs.python.org/3/tutorial/introduction.html#first-steps-towards-programming) i [`for`](https://docs.python.org/3/tutorial/controlflow.html#for-statements)
+  - sterowanie w pętli przy pomocy [`break`, `continue` i `else`](https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops)
+- obsługi wyjątków przy pomocy [`try..except..else..finally`](https://docs.python.org/3/tutorial/errors.html#handling-exceptions)
+- kontekstu przy pomocy `with`
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = True
+>>> if i:
+...     print('OK')
+... else:
+...     print('Bad')
+... 
+OK
+
+>>> i = 2
+>>> if i < 1:
+...     print('Mniejsze niz 1')
+... else:
+...     print('Wieksze lub rowne 1')
+... 
+Wieksze lub rowne 1
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 1
+>>> if i < 1:
+...     print('Mniejsze niz 1')
+... elif i > 1:
+...     print('Wieksze niz 1')
+... else:  # elif i == 1
+...     print('Rowne 1')
+... 
+Rowne 1
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 1
+>>> while i < 3:
+...     print(i)
+...     i = i + 1
+... print(i)
+1
+2
+>>> print(i)
+3
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 1
+>>> while i < 5:
+...     print(i)
+...     if i % 3 == 0:
+...         print('Koncz szybciej..')
+...         break
+...     i = i + 1
+... 
+1
+2
+3
+Koncz szybciej..
+>>> print(i)
+3
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 1
+>>> while i < 21:
+...     print(i)
+...     if i % 2 == 1:
+...         print('Mnoze przez 3 i dodaje 1 do %d' % i)
+...         i = i * 3 + 1
+...         continue
+...     print('Dodaje 1 do %d' % i)
+...     i = i + 1
+... 
+1
+Mnoze przez 3 i dodaje 1 do 1
+4
+Dodaje 1 do 4
+5
+...
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 3
+>>> while i < 2:
+...     print(i)
+... else:
+...     print('Nic nie zrobilem..')
+... 
+Nic nie zrobilem..
+```
+
+---
+
+## python
+
+Typy, które można wywołać:
+
+- [funkcje](https://docs.python.org/3/tutorial/controlflow.html#defining-functions)
+  - [lambda](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions)
+- [klasy](https://docs.python.org/3/tutorial/classes.html#class-objects) aby utworzy obiekty danej klasy
+  - [metody]()
+- [generatory](https://docs.python.org/3/tutorial/classes.html#generators)
+  - [list comprehension](https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions)
+- [dekoratory](https://docs.python.org/3/glossary.html#term-decorator)
+
+---
+
+## python - funkcje
+
+```python
+>>> def func(a):
+...     print(a)
+... 
+>>> func('Cos tu napisze..')
+Cos tu napisze..
+
+>>> func = lambda a: a+2
+>>> print(func(3))
+5
+```
+
+---
+
+## python - klasy
+
+```python
+>>> class Object(object):
+...     def __init__(self, attr):
+...         self.__attr = attr
+...     def do_something(self, param):
+...         return '%s: %s' % (self.__attr, param)
+... 
+>>> o = Object('Testowy obiekt')
+>>> print(o.do_something('dodatkowy tekst'))
+Testowy obiekt: dodatkowy tekst
+```
+
+---
+
+## python - klasy
+
+```python
+>>> class A(object):
+...     def method(self):
+...         print('Obiekt klasy A')
+...     def base_method(self):
+...         print('Obiekt klasy A')
+... 
+>>> class B(A):
+...     def method(self):
+...         print('Obiekt klasy B')
+... 
+```
+
+---
+
+## python - klasy
+
+```python
+>>> a = A()
+>>> b = B()
+>>> a.method()
+Obiekt klasy A
+>>> a.base_method()
+Obiekt klasy A
+>>> b.method()
+Obiekt klasy B
+>>> b.base_method()
+Obiekt klasy A
+```
+
+---
+
+## python - klasy
+
+```python
+>>> class A(object):
+...     def method(self):
+...         print('Obiekt klasy A')
+... 
+>>> class B(object):
+...     def method(self):
+...         print('Obiekt klasy B')
+... 
+>>> class C(A, B):
+...     pass
+... 
+```
+
+---
+
+## python - klasy
+
+```python
+>>> a, b, c = A(), B(), C()
+>>> a.method()
+Obiekt klasy A
+>>> b.method()
+Obiekt klasy B
+>>> c.method()
+Obiekt klasy A
+```
+
+---
+
+## python - klasy
+
+```python
+>>> class C(B, A):
+...     pass
+... 
+>>> a, b, c = A(), B(), C()
+>>> a.method()
+Obiekt klasy A
+>>> b.method()
+Obiekt klasy B
+>>> c.method()
+Obiekt klasy B
+```
+
+---
+
+## python - klasy
+
+```python
+>>> class A(object):
+...     def method(self):
+...         print('Obiekt klasy A')
+... 
+>>> class B(A):
+...     def method(self):
+...         print('Obiekt klasy B')
+... 
+>>> class C(A, B):
+...     def method(self):
+...         print('Obiekt klasy C')
+... 
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: Cannot create a consistent method resolution
+order (MRO) for bases A, B
+```
+
+---
+
+## python - klasy
+
+```python
+>>> class A(object):
+...     def method(self):
+...         print('Obiekt klasy A')
+... 
+>>> class B(A):
+...     def method(self):
+...         print('Obiekt klasy B')
+... 
+>>> class C(B, A):
+...     def method(self):
+...         print('Obiekt klasy C')
+... 
+>>> c = C()
+>>> c.method()
+Obiekt klasy C
+```
+
+---
+
+## python - klasy
+
+```python
+>>> class A(object):
+...     def __init__(self):
+...         self.public = 'Publiczne pole obiektu klasy A'
+...     def method(self):
+...         print(self.public)
+... 
+>>> class B(A):
+...     def __init__(self):
+...         self.public = 'Publiczne pole obiektu klasy B'
+... 
+>>> a, b = A(), B()
+>>> a.method()
+Publiczne pole obiektu klasy A
+>>> b.method()
+Publiczne pole obiektu klasy B
+```
+
+---
+
+## python - klasy
+
+```python
+>>> class A(object):
+...     def __init__(self):
+...         self.__private = 'Prywatne pole obiektu klasy A'
+...     def method(self):
+...         print(self.__private)
+... 
+>>> class B(A):
+...     def __init__(self):
+...         self.__private = 'Prywatne pole obiektu klasy B'
+... 
+>>> a, b = A(), B()
+>>> a.method()
+Prywatne pole obiektu klasy A
+>>> b.method()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 5, in method
+AttributeError: 'B' object has no attribute '_A__private'
+```
+
+---
+
+## python
+
+Odnośniki do slajdów:
+
+- [metody specjalne](https://pasuder.github.io/labs/doc/lab01/#3) klasy
+- [wyjątki](https://pasuder.github.io/labs/doc/lab02/#3)
+- [blok `with`](https://pasuder.github.io/labs/doc/lab02/#6)
+- [`lambda`](https://pasuder.github.io/labs/doc/lab03/#11)
+- [domknięcia](https://pasuder.github.io/labs/doc/lab03/#3) i [dekoratory](https://pasuder.github.io/labs/doc/lab03/#5)
+- [list comprehension](https://pasuder.github.io/labs/doc/lab03/#8) i [map/filter/reduce](https://pasuder.github.io/labs/doc/lab03/#12)
+
+Polecam zapoznać się z [tutorialem](https://docs.python.org/3/tutorial/index.html), aby uporządkować wiedzę 😃
+
+---
+
+## Narzędzia - git, GitHub
+
+- [git](https://pasuder.github.io/labs/doc/lab04/#3) do wersjonowanie zmian w plikach
+  - istnieje wiele aplikacji graficznych jak np.: [GitHub Desktop](https://desktop.github.com/) czy [gitg](https://wiki.gnome.org/Apps/Gitg/)
+  - IDE PyCharm czy inne mają wbudowanego klienta git
+- [GitHub](https://pasuder.github.io/labs/doc/getting-started/#3) z pominięciem uruchomieniem edytora - został on wyłączony
+
+---
+
+## Narzędzia - Jupyter
+
+[Jupyter](https://jupyter.org) można samemu uruchomić (lokalnie) korzystając z [paczki z pip](https://jupyter.org/install):
+
+```bash
+pip install jupyter
+jupyter notebook
+```
+
+Dobre narzędzie do prezentacji na warsztatach.
+
+---
+
+## Narzędzia - Theia
+
+[Theia](https://www.theia-ide.org/) można samemu uruchomić (lokalnie) korzystając z [kontenerów Docker](https://github.com/theia-ide/theia-apps/tree/master/theia-python-docker):
+
+```bash
+docker run -it -p 3000:3000 -v "$(pwd):/home/project" theiaide/theia-python:latest
+```
+
+Z Theia można korzystać także na [GitPod](https://gitpod.io/#github.com/theia-ide/theia), gdzie wiele rzeczy dodatkowych jest instalowanych, płatne powyżej 100 godzin na miesiąc użycia.
+
+---
+
+## Narzędzia - repl.it, kaggle
+
+- [repl.it](https://repl.it) do prostych projektów na chwilę
+- [kaggle](https://www.kaggle.com) do projektów lub prac związanych z uczeniem maszynowym
+
+---
+
+## Narzędzia - Travis
+
+[Travis](https://travis-ci.org/) pozwala na proste uruchamianie [testów](https://pasuder.github.io/labs/doc/lab04/#7) dla nowych zmian w repozytorium.
+
+---
+
+## Zadania
+
+Proszę wykonać zadania dostępne na stronie [notebook.suder.dev](https://notebook.suder.dev).
+
+Wymaganie zweryfikowane konto na GitHub.
+
+---
+
+class: center, middle
+
+<img src="https://i.giphy.com/media/JVdF14CQQH7gs/giphy.webp"></img>
+
+_Dziękuję!_
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
