@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Python - podsumowanie</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Python
+
+### Podsumowanie 2/2
+
+### 07/06/2019
+
+Paweł Suder
+
+<pasuder@agh.edu.pl>
+
+https://pasuder.github.io/labs/doc/lab06
+
+---
+
+# Agenda
+
+1. Tematy
+2. Materiały
+
+---
+
+# Tematy
+
+Na dzisiaj:
+
+- python
+- dodatkowe materiały
+
+---
+
+## python
+
+- typy podstawowe: set i dict
+- instrukcje sterujące
+- funkcje: parametry, domknięcia i dekoratory
+- interpreter
+
+---
+
+## python - typy
+
+Typy wbudowane - wybrane przykłady:
+
+- [zbiory](https://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset)
+- [słowniki](https://docs.python.org/3/library/stdtypes.html#mapping-types-dict)
+
+---
+
+## python - typy
+
+```python
+>>> i = {0, 1, 2}
+>>> type(i)
+<class 'set'>
+
+>>> i = {0:'0', 1:'1', 2:'2'}
+>>> type(i)
+<class 'dict'>
+```
+
+---
+
+## python
+
+Instrukcje [sterujące](https://docs.python.org/3/tutorial/controlflow.html):
+
+- warunkowe [`if`](https://docs.python.org/3/tutorial/controlflow.html#if-statements)
+- pętle [`while`](https://docs.python.org/3/tutorial/introduction.html#first-steps-towards-programming) i [`for`](https://docs.python.org/3/tutorial/controlflow.html#for-statements)
+  - sterowanie w pętli przy pomocy [`break`, `continue` i `else`](https://docs.python.org/3/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops)
+- obsługi wyjątków przy pomocy [`try..except..else..finally`](https://docs.python.org/3/tutorial/errors.html#handling-exceptions)
+- kontekstu przy pomocy `with`
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = True
+>>> if i:
+...     print('OK')
+... else:
+...     print('Bad')
+... 
+OK
+
+>>> i = 2
+>>> if i < 1:
+...     print('Mniejsze niz 1')
+... else:
+...     print('Wieksze lub rowne 1')
+... 
+Wieksze lub rowne 1
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 1
+>>> if i < 1:
+...     print('Mniejsze niz 1')
+... elif i > 1:
+...     print('Wieksze niz 1')
+... else:  # elif i == 1
+...     print('Rowne 1')
+... 
+Rowne 1
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 1
+>>> while i < 3:
+...     print(i)
+...     i = i + 1
+... print(i)
+1
+2
+>>> print(i)
+3
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 1
+>>> while i < 5:
+...     print(i)
+...     if i % 3 == 0:
+...         print('Koncz szybciej..')
+...         break
+...     i = i + 1
+... 
+1
+2
+3
+Koncz szybciej..
+>>> print(i)
+3
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 1
+>>> while i < 21:
+...     print(i)
+...     if i % 2 == 1:
+...         print('Mnoze przez 3 i dodaje 1 do %d' % i)
+...         i = i * 3 + 1
+...         continue
+...     print('Dodaje 1 do %d' % i)
+...     i = i + 1
+... 
+1
+Mnoze przez 3 i dodaje 1 do 1
+4
+Dodaje 1 do 4
+5
+...
+```
+
+---
+
+## python - instrukcje
+
+```python
+>>> i = 3
+>>> while i < 2:
+...     print(i)
+... else:
+...     print('Nic nie zrobilem..')
+... 
+Nic nie zrobilem..
+```
+
+---
+
+## python
+
+Odnośniki do slajdów (niektóre z tematów):
+
+- [wyjątki](https://pasuder.github.io/labs/doc/lab02/#3)
+- [blok `with`](https://pasuder.github.io/labs/doc/lab02/#6)
+- [domknięcia](https://pasuder.github.io/labs/doc/lab03/#3) i [dekoratory](https://pasuder.github.io/labs/doc/lab03/#5)
+
+Polecam zapoznać się z [tutorialem](https://docs.python.org/3/tutorial/index.html), aby uporządkować wiedzę 😃
+
+---
+
+class: center, middle
+
+<img src=""></img>
+
+_Dziękuję!_
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
