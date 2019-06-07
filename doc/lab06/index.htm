@@ -225,6 +225,75 @@ Polecam zapoznać się z [tutorialem](https://docs.python.org/3/tutorial/index.h
 
 ## python
 
+### cpython
+
+- The "traditional" implementation of Python (nicknamed CPython).
+- CPython is the default byte-code interpreter of Python, which is written in C.
+- [CPython](https://wiki.python.org/moin/CPython) is Guido van Rossum's reference version of the Python computing language. It's most often called simply "Python"; speakers say "CPython" generally to distinguish it explicitly from other implementations.
+- [Python vs CPython](https://stackoverflow.com/q/17130975)
+- It is a [Virtual stack machine](https://en.wikipedia.org/wiki/Stack_machine#Virtual_stack_machines).
+
+---
+
+## python
+
+### pypy
+
+PyPy is a replacement for CPython. It is built using the RPython language that was co-developed with it. The main reason to use it instead of CPython is speed: it runs generally faster. PyPy implements Python 2.7.13 and 3.5.3.
+
+[Features](https://pypy.org/features.html):
+
+- speed
+- memory usage
+- stackless
+
+---
+
+## python
+
+### stackless
+
+[..] named because it avoids depending on the C call stack for its own stack. [..] Stackless Python uses the C stack, but the stack is cleared between function calls. The most prominent feature of Stackless is microthreads, which avoid much of the overhead associated with usual operating system threads.
+
+[Source](https://en.wikipedia.org/wiki/Stackless_Python) [More](https://github.com/stackless-dev/stackless/wiki)
+
+---
+
+## python
+
+### jython
+
+Jython: Python for the Java Platform.
+
+Jython 3.x development is in progress. Jython 2.7.0 was released on May 3, 2015. Jython 2.7.1 release candidates will be released soon (September 2015).
+
+[What is Jython?](https://wiki.python.org/jython/JythonFaq/GeneralInfo)
+[Why Jython?](https://wiki.python.org/jython/WhyJython)
+
+---
+
+## python
+
+### ironpython
+
+IronPython is an excellent addition to the .NET Framework, providing Python developers with the power of the .NET framework. Existing .NET developers can also use IronPython as a fast and expressive scripting language for embedding, testing, or writing a new application from scratch.
+
+IronPython 2.7.8 is now available! (February 16, 2018)
+
+---
+
+## python
+
+- [activepython](https://www.activestate.com/products/activepython/) - [commercial version](https://wiki.python.org/moin/ActivePython)
+- [anaconda](https://www.anaconda.com/) - data science
+- [micropython](https://micropython.org/) - python3 for microcontrollers
+- [miniconda](https://docs.conda.io/en/latest/miniconda.html) - minimal version of anaconda, without extra packages, just repo mgmt stuff
+- [pyston](https://github.com/dropbox/pyston) - performance-oriented, LLVM, JIT
+
+---
+
+## python
+
 Do zarządzania wersjami python na Linux: [PyEnv](https://github.com/pyenv/pyenv). Dobre dla środowisk deweloperskich.
 
 Dla aplikacji produkcyjnych: lepiej korzystać z obrazów bazowych dla kontenerów, np.: Docker:
@@ -233,6 +302,17 @@ Dla aplikacji produkcyjnych: lepiej korzystać z obrazów bazowych dla kontener�
 - https://hub.docker.com/_/pypy
 
 [Przykład Dockerfile](https://github.com/suderdev/multi-editor/blob/master/Dockerfile)
+
+---
+
+## python
+
+- [(official) CPython internals](https://devguide.python.org/exploring/)
+- [Python internals in short](https://medium.com/@dawranliou/getting-started-with-python-internals-a5474ccb8022)
+- [Python stack machine explained](https://opensource.com/article/18/4/introduction-python-bytecode)
+- [CPython internals](http://www.pgbovine.net/cpython-internals.htm)
+- [Python interpreter in python](https://www.aosabook.org/en/500L/a-python-interpreter-written-in-python.html)
+- [Inside The Python Virtual Machine](https://leanpub.com/insidethepythonvirtualmachine/read)
 
 ---
 
